@@ -126,6 +126,7 @@
     <None Include="include\board.def" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="src\Blinky.cpp" />
     <ClCompile Include="src\Clyde.cpp" />
     <ClCompile Include="src\Dots.cpp" />
@@ -151,10 +152,11 @@
     <ClInclude Include="include\Dots.h" />
     <ClInclude Include="include\example.h" />
     <ClInclude Include="include\Fruit.h" />
-    <ClInclude Include="include\GameObjectStruct.h" />
+    <ClInclude Include="include\GameObject.h" />
     <ClInclude Include="include\Ghost.h" />
     <ClInclude Include="include\GhostPenDoor.h" />
     <ClInclude Include="include\Inky.h" />
+    <ClInclude Include="include\MovingObject.h" />
     <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\Orientation.h" />
     <ClInclude Include="include\PacMan.h" />
@@ -164,7 +166,6 @@
     <ClInclude Include="include\SuperDot.h" />
     <ClInclude Include="include\UI.h" />
     <ClInclude Include="include\Wall.h" />
-    <ClInclude Include="MovingObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

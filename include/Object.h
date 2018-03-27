@@ -7,7 +7,7 @@ protected:
 	int posY;
 	float size;
 	bool pause;
-	image sprite;
+	//image sprite;
 
 
 

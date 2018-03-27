@@ -7,7 +7,7 @@
  *       Group: TA's
  */
 
-#include "GameObjectStruct.h"
+#include "GameObject.h"
 #include "UI.h"
 #include <SDL2/SDL.h>
 #include <vector>
@@ -36,11 +36,10 @@ int main(int /*argc*/, char ** /*argv*/)
         SDL_AddTimer(100, gameUpdate, static_cast<void *>(nullptr));
 
     // Example object, this can be removed later
-    GameObjectStruct pacman;
-    pacman.x = 1;
-    pacman.y = 1;
-    pacman.type = PACMAN;
-    pacman.dir = UP;
+    GameObject pacman;
+	pacman.setPosition(1, 1);
+	pacman.setType(PACMAN);
+	pacman.setDirection(UP);
 
     // Call game init code here
 
@@ -83,7 +82,7 @@ int main(int /*argc*/, char ** /*argv*/)
         ui.setLives(3); // <-- Pass correct value to the setter
 
         // Render the scene
-        std::vector<GameObjectStruct> objects = {pacman};
+        std::vector<GameObject> objects = {pacman};
         // ^-- Your code should provide this vector somehow (e.g.
         // game->getStructs())
         ui.update(objects);
