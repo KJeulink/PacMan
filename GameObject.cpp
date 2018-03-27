@@ -8,6 +8,20 @@
 */
 #include "GameObject.h"
 
+
+GameObject::GameObject() {
+}
+
+GameObject::~GameObject() {
+}
+
+GameObject::GameObject(int x, int y, Type type, Direction dir) {
+	this->x = x;
+	this->y = y;
+	this->type = type;
+	this->dir = dir;
+}
+
 void GameObject::setPosition(int x, int y) {
 	this->x = x;
 	this->y = y;

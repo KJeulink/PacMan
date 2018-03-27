@@ -55,6 +55,10 @@ class GameObject {
     Direction dir;
 
 public:
+	GameObject();
+	GameObject(int x, int y, Type type, Direction dir);
+	virtual ~GameObject();
+
 	void setPosition(int x, int y);
 	void setType(Type type);
 	void setDirection(Direction dir);

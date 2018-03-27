@@ -136,7 +136,6 @@
     <ClCompile Include="src\Inky.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MovingObject.cpp" />
-    <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\Orientation.cpp" />
     <ClCompile Include="src\PacMan.cpp" />
     <ClCompile Include="src\Pinky.cpp" />
@@ -157,7 +156,6 @@
     <ClInclude Include="include\GhostPenDoor.h" />
     <ClInclude Include="include\Inky.h" />
     <ClInclude Include="include\MovingObject.h" />
-    <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\Orientation.h" />
     <ClInclude Include="include\PacMan.h" />
     <ClInclude Include="include\Pinky.h" />
