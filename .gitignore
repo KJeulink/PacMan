@@ -7,3 +7,5 @@ obj
 *.exe
 pacman.exp
 pacman.lib
+.vs
+x64
