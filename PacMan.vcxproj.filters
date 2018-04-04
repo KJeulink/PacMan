@@ -85,9 +85,6 @@
     <ClInclude Include="include\UI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MovingObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Blinky.h">
       <Filter>Header Files</Filter>
     </ClInclude>
