@@ -50,6 +50,9 @@
     <ClCompile Include="src\MovingObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Orientation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\PacMan.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -98,6 +101,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Inky.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Orientation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\PacMan.h">
