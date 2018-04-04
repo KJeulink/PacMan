@@ -36,7 +36,10 @@ int main(int /*argc*/, char ** /*argv*/)
         SDL_AddTimer(100, gameUpdate, static_cast<void *>(nullptr));
 
     // Example object, this can be removed later
-    GameObject pacman(1, 1, PACMAN, UP);
+    GameObject pacman;
+	pacman.setPosition(1, 1);
+	pacman.setType(PACMAN);
+	pacman.setDirection(UP);
 
     // Call game init code here
 
@@ -44,7 +47,7 @@ int main(int /*argc*/, char ** /*argv*/)
     bool quit = false;
     while (!quit) {
         // set timeout to limit frame rate
-        Uint32 timeout = SDL_GetTicks() + 200;
+        Uint32 timeout = SDL_GetTicks() + 20;
 
         // Handle the input
         SDL_Event e;
@@ -53,68 +56,23 @@ int main(int /*argc*/, char ** /*argv*/)
             if (e.type == SDL_QUIT) {
                 quit = true;
             }
-			int tempX = 0;
-			int tempY = 0;
+
             // All keydown events
             if (e.type == SDL_KEYDOWN) {
-				switch (e.key.keysym.sym) {
-				case SDLK_LEFT: // YOUR CODE HERE
-					pacman.setDirection(LEFT);
-					break;
-				case SDLK_RIGHT: // YOUR CODE HERE
-					pacman.setDirection(RIGHT);
-					break;
-				case SDLK_UP: // YOUR CODE HERE
-					pacman.setDirection(UP);
-					break;
-				case SDLK_DOWN: // YOUR CODE HERE
-					pacman.setDirection(DOWN);
-					break;
-				case SDLK_ESCAPE:
-					quit = true;
-				}
+                switch (e.key.keysym.sym) {
+                case SDLK_LEFT: // YOUR CODE HERE
+                    break;
+                case SDLK_RIGHT: // YOUR CODE HERE
+                    break;
+                case SDLK_UP: // YOUR CODE HERE
+                    break;
+                case SDLK_DOWN: // YOUR CODE HERE
+                    break;
+                case SDLK_ESCAPE:
+                    quit = true;
+                    break;
+                }
             }
-
-			if (pacman.getDirection() == LEFT) {
-				tempX = pacman.getX() - 1;
-				tempY = pacman.getY();
-				if ((tempX >= 0) && (map.at(tempY).at(tempX) == 0)) {
-					pacman.setPosition(tempX, tempY);
-				}
-				else if ((tempX < 0) && (map.at(tempY).at(map.at(tempY).size() - 1) == 0)) {
-					pacman.setPosition(map.at(tempY).size() - 1, tempY);
-				}
-			}
-			else if (pacman.getDirection() == RIGHT) {
-				tempX = pacman.getX() + 1;
-				tempY = pacman.getY();
-				if ((tempX < map.at(tempY).size()) && (map.at(tempY).at(tempX) == 0)) {
-					pacman.setPosition(tempX, tempY);
-				}
-				else if ((tempX == map.at(tempY).size()) && (map.at(tempY).at(0) == 0)) {
-					pacman.setPosition(0, tempY);
-				}
-			}
-			else if (pacman.getDirection() == UP) {
-				tempX = pacman.getX();
-				tempY = pacman.getY() - 1;
-				if ((tempY >= 0) && (map.at(tempY).at(tempX) == 0)) {
-					pacman.setPosition(tempX, tempY);
-				}
-				else if ((tempY < 0) && (map.at(map.size() - 1).at(tempX) == 0)) {
-					pacman.setPosition(tempX, map.size() - 1);
-				}
-			}
-			else if (pacman.getDirection() == DOWN) {
-				tempX = pacman.getX();
-				tempY = pacman.getY() + 1;
-				if ((tempY < map.size()) && (map.at(tempY).at(tempX) == 0)) {
-					pacman.setPosition(tempX, tempY);
-				}
-				else if ((tempY == map.size()) && (map.at(tempY).at(0) == 0)) {
-					pacman.setPosition(tempX, 0);
-				}
-			}
         }
 
         // Set the score
