@@ -50,9 +50,6 @@
     <ClCompile Include="src\MovingObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Orientation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\PacMan.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
