@@ -38,7 +38,7 @@ int main(int /*argc*/, char ** /*argv*/)
         SDL_AddTimer(100, gameUpdate, static_cast<void *>(nullptr));
 
     // Example object, this can be removed later
-    GameObject pacman(1, 1, PACMAN, UP);
+    PacMan pacman(1, 1);
 
     // Call game init code here
 
