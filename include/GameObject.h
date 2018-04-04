@@ -55,7 +55,6 @@ class GameObject {
     Direction dir;
 
 public:
-	GameObject();
 	GameObject(int x, int y, Type type, Direction dir);
 	virtual ~GameObject();
 

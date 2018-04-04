@@ -2,7 +2,7 @@
 
 
 
-Fruit::Fruit()
+Fruit::Fruit(int x, int y) : GameObject(x, y, CHERRY, UP)
 {
 }
 

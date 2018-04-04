@@ -2,7 +2,7 @@
 
 
 
-GhostPenDoor::GhostPenDoor()
+GhostPenDoor::GhostPenDoor(int x, int y) : Wall(x, y)
 {
 }
 
