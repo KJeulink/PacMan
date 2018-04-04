@@ -7,7 +7,7 @@ class PacMan :
 	public MovingObject
 {
 public:
-	PacMan(int x, int y, Type type, Direction dir);
+	PacMan(int x, int y);
 	~PacMan();
 };
 
