@@ -4,7 +4,7 @@ class SuperDot :
 	public Dots
 {
 public:
-	SuperDot();
+	SuperDot(int x, int y);
 	~SuperDot();
 };
 

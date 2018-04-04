@@ -11,6 +11,8 @@
 #include "UI.h"
 #include <SDL2/SDL.h>
 #include <vector>
+#include "PacMan.h"
+#include "Dots.h"
 
 /// Callback function to update the game state.
 ///
@@ -40,6 +42,25 @@ int main(int /*argc*/, char ** /*argv*/)
 
     // Call game init code here
 
+	for (int y = 0; y < map.size(); y++) {
+		for (int x = 0; x < map.at(y).size(); x++) {
+			if ((y == 13) && ((x == 6) || (x == 21))) {
+				if (map.at(y).at(x) == 0) {
+					Dots dot(x, y);
+				}
+			}
+			else if ((y < 8) || (y > 17) && ((x < 8) || (x > 17))) {
+				if (map.at(y).at(x) == 0) {
+					Dots dot(x, y);
+				}
+			}
+			else {
+				if (map.at(y).at(x) == 0) {
+					Dots dot(x, y);
+				}
+			}
+		}
+	}
 
     bool quit = false;
     while (!quit) {

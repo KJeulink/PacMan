@@ -2,7 +2,7 @@
 
 
 
-Dots::Dots()
+Dots::Dots(int x, int y) : GameObject(x, y, DOT, UP)
 {
 }
 
