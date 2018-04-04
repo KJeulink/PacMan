@@ -7,7 +7,7 @@ class Dots :
 	public GameObject
 {
 public:
-	Dots();
+	Dots(int x, int y);
 	~Dots();
 };
 

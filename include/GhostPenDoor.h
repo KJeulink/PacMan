@@ -7,7 +7,7 @@ class GhostPenDoor :
 	public Wall
 {
 public:
-	GhostPenDoor();
+	GhostPenDoor(int x, int y);
 	~GhostPenDoor();
 };
 

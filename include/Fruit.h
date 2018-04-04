@@ -7,7 +7,7 @@ class Fruit :
 	public GameObject
 {
 public:
-	Fruit();
+	Fruit(int x, int y);
 	~Fruit();
 };
 
