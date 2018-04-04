@@ -43,19 +43,19 @@ int main(int /*argc*/, char ** /*argv*/)
     // Call game init code here
 
 	for (int y = 0; y < map.size(); y++) {
-		for (int x = 0; x < map.at(y).size(); x++) {
+		for (int x = 0; x < map[y].size(); x++) {
 			if ((y == 13) && ((x == 6) || (x == 21))) {
 				if (map.at(y).at(x) == 0) {
 					Dots dot(x, y);
 				}
 			}
 			else if ((y < 8) || (y > 17) && ((x < 8) || (x > 17))) {
-				if (map.at(y).at(x) == 0) {
+				if (map[y][x] == 0) {
 					Dots dot(x, y);
 				}
 			}
 			else {
-				if (map.at(y).at(x) == 0) {
+				if (map[y][x] == 0) {
 					Dots dot(x, y);
 				}
 			}
@@ -79,60 +79,60 @@ int main(int /*argc*/, char ** /*argv*/)
             // All keydown events
             if (e.type == SDL_KEYDOWN) {
 				switch (e.key.keysym.sym) {
-				case SDLK_LEFT: // YOUR CODE HERE
-					pacman.setDirection(LEFT);
-					break;
-				case SDLK_RIGHT: // YOUR CODE HERE
-					pacman.setDirection(RIGHT);
-					break;
-				case SDLK_UP: // YOUR CODE HERE
-					pacman.setDirection(UP);
-					break;
-				case SDLK_DOWN: // YOUR CODE HERE
-					pacman.setDirection(DOWN);
-					break;
-				case SDLK_ESCAPE:
-					quit = true;
-				}
+					case SDLK_LEFT: // YOUR CODE HERE
+						pacman.setDirection(LEFT);
+						break;
+					case SDLK_RIGHT: // YOUR CODE HERE
+						pacman.setDirection(RIGHT);
+						break;
+					case SDLK_UP: // YOUR CODE HERE
+						pacman.setDirection(UP);
+						break;
+					case SDLK_DOWN: // YOUR CODE HERE
+						pacman.setDirection(DOWN);
+						break;
+					case SDLK_ESCAPE:
+						quit = true;
+					}
             }
 
 			if (pacman.getDirection() == LEFT) {
 				tempX = pacman.getX() - 1;
 				tempY = pacman.getY();
-				if ((tempX >= 0) && (map.at(tempY).at(tempX) == 0)) {
+				if ((tempX >= 0) && (map[tempY][tempX] == 0)) {
 					pacman.setPosition(tempX, tempY);
 				}
-				else if ((tempX < 0) && (map.at(tempY).at(map.at(tempY).size() - 1) == 0)) {
-					pacman.setPosition(map.at(tempY).size() - 1, tempY);
+				else if ((tempX < 0) && (map[tempY][map[tempY].size() - 1] == 0)) {
+					pacman.setPosition(map[tempY].size() - 1, tempY);
 				}
 			}
 			else if (pacman.getDirection() == RIGHT) {
 				tempX = pacman.getX() + 1;
 				tempY = pacman.getY();
-				if ((tempX < map.at(tempY).size()) && (map.at(tempY).at(tempX) == 0)) {
+				if ((tempX < map[tempY].size()) && (map[tempY][tempX] == 0)) {
 					pacman.setPosition(tempX, tempY);
 				}
-				else if ((tempX == map.at(tempY).size()) && (map.at(tempY).at(0) == 0)) {
+				else if ((tempX == map[tempY].size()) && (map[tempY][0] == 0)) {
 					pacman.setPosition(0, tempY);
 				}
 			}
 			else if (pacman.getDirection() == UP) {
 				tempX = pacman.getX();
 				tempY = pacman.getY() - 1;
-				if ((tempY >= 0) && (map.at(tempY).at(tempX) == 0)) {
+				if ((tempY >= 0) && (map[tempY][tempX] == 0)) {
 					pacman.setPosition(tempX, tempY);
 				}
-				else if ((tempY < 0) && (map.at(map.size() - 1).at(tempX) == 0)) {
+				else if ((tempY < 0) && (map[map.size() - 1][tempX] == 0)) {
 					pacman.setPosition(tempX, map.size() - 1);
 				}
 			}
 			else if (pacman.getDirection() == DOWN) {
 				tempX = pacman.getX();
 				tempY = pacman.getY() + 1;
-				if ((tempY < map.size()) && (map.at(tempY).at(tempX) == 0)) {
+				if ((tempY < map.size()) && (map[tempY][tempX] == 0)) {
 					pacman.setPosition(tempX, tempY);
 				}
-				else if ((tempY == map.size()) && (map.at(tempY).at(0) == 0)) {
+				else if ((tempY == map.size()) && (map[tempY][0] == 0)) {
 					pacman.setPosition(tempX, 0);
 				}
 			}
