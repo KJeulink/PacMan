@@ -1,3 +1,6 @@
+#ifndef DOTS_H
+#define DOTS_H
+
 #pragma once
 #include "GameObject.h"
 class Dots :
@@ -8,3 +11,4 @@ public:
 	~Dots();
 };
 
+#endif //DOTS_H

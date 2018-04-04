@@ -11,6 +11,7 @@
 #include "UI.h"
 #include <SDL2/SDL.h>
 #include <vector>
+#include "PacMan.h"
 
 /// Callback function to update the game state.
 ///
@@ -36,7 +37,7 @@ int main(int /*argc*/, char ** /*argv*/)
         SDL_AddTimer(100, gameUpdate, static_cast<void *>(nullptr));
 
     // Example object, this can be removed later
-    GameObject pacman(1, 1, PACMAN, UP);
+    PacMan pacman(1, 1, PACMAN, UP);
 
     // Call game init code here
 
@@ -78,40 +79,44 @@ int main(int /*argc*/, char ** /*argv*/)
 			if (pacman.getDirection() == LEFT) {
 				tempX = pacman.getX() - 1;
 				tempY = pacman.getY();
+				int sizeX = map.at(tempY).size();
 				if ((tempX >= 0) && (map.at(tempY).at(tempX) == 0)) {
 					pacman.setPosition(tempX, tempY);
 				}
-				else if ((tempX < 0) && (map.at(tempY).at(map.at(tempY).size() - 1) == 0)) {
-					pacman.setPosition(map.at(tempY).size() - 1, tempY);
+				else if ((tempX < 0) && (map.at(tempY).at(sizeX - 1) == 0)) {
+					pacman.setPosition(sizeX - 1, tempY);
 				}
 			}
 			else if (pacman.getDirection() == RIGHT) {
 				tempX = pacman.getX() + 1;
 				tempY = pacman.getY();
-				if ((tempX < map.at(tempY).size()) && (map.at(tempY).at(tempX) == 0)) {
+				int sizeX = map.at(tempY).size();
+				if ((tempX < sizeX) && (map.at(tempY).at(tempX) == 0)) {
 					pacman.setPosition(tempX, tempY);
 				}
-				else if ((tempX == map.at(tempY).size()) && (map.at(tempY).at(0) == 0)) {
+				else if ((tempX == sizeX) && (map.at(tempY).at(0) == 0)) {
 					pacman.setPosition(0, tempY);
 				}
 			}
 			else if (pacman.getDirection() == UP) {
 				tempX = pacman.getX();
 				tempY = pacman.getY() - 1;
+				int sizeY = map.size();
 				if ((tempY >= 0) && (map.at(tempY).at(tempX) == 0)) {
 					pacman.setPosition(tempX, tempY);
 				}
-				else if ((tempY < 0) && (map.at(map.size() - 1).at(tempX) == 0)) {
-					pacman.setPosition(tempX, map.size() - 1);
+				else if ((tempY < 0) && (map.at(sizeY - 1).at(tempX) == 0)) {
+					pacman.setPosition(tempX, sizeY - 1);
 				}
 			}
 			else if (pacman.getDirection() == DOWN) {
 				tempX = pacman.getX();
 				tempY = pacman.getY() + 1;
-				if ((tempY < map.size()) && (map.at(tempY).at(tempX) == 0)) {
+				int sizeY = map.size();
+				if ((tempY < sizeY) && (map.at(tempY).at(tempX) == 0)) {
 					pacman.setPosition(tempX, tempY);
 				}
-				else if ((tempY == map.size()) && (map.at(tempY).at(0) == 0)) {
+				else if ((tempY == sizeY) && (map.at(tempY).at(0) == 0)) {
 					pacman.setPosition(tempX, 0);
 				}
 			}

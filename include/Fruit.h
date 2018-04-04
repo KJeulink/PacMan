@@ -1,3 +1,6 @@
+#ifndef FRUIT_H
+#define FRUIT_H
+
 #pragma once
 #include "GameObject.h"
 class Fruit :
@@ -8,3 +11,4 @@ public:
 	~Fruit();
 };
 
+#endif //FRUIT

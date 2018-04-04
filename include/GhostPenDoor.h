@@ -1,3 +1,6 @@
+#ifndef GHOSTPENDOOR_H
+#define GHOSTPENDOOR_H
+
 #pragma once
 #include "Wall.h"
 class GhostPenDoor :
@@ -8,3 +11,4 @@ public:
 	~GhostPenDoor();
 };
 
+#endif //GHOSTPENDOOR_H
