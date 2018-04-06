@@ -6,6 +6,7 @@
 class Wall :
 	public GameObject
 {
+	bool open;
 public:
 	Wall(int x, int y);
 	~Wall();
