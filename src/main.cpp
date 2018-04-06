@@ -17,6 +17,7 @@
 #include "Blinky.h"
 #include "Clyde.h"
 #include "Pinky.h"
+#include "Fruit.h"
 
 /// Callback function to update the game state.
 ///
@@ -84,20 +85,15 @@ int main(int /*argc*/, char ** /*argv*/)
 		map[0].size(),
 		std::vector<std::vector<GameObject*>>(map.size()));
 
-    // Call game init code here
+	// Call game init code here
+	// Placing dots in the map
 	for (int y = 0; y < map.size(); y++) {
 		for (int x = 0; x < map[y].size(); x++) {
-			if ((y == 13) && ((x == 6) || (x == 21))) {
-				if (map.at(y).at(x) == 0) {
-					Dots* dot = new Dots(x, y);
-					objects[x][y].push_back(dot);
-				}
+			if (((y == 13) && (x < 6)) || ((y == 13) && (x > 21))) {
+
 			}
-			else if ((y < 8) || (y > 17) && ((x < 8) || (x > 17))) {
-				if (map[y][x] == 0) {
-					Dots* dot = new Dots(x, y);
-					objects[x][y].push_back(dot);
-				}
+			else if (((y > 8) && (y < 18)) && ((x > 6) && (x < 21))) {
+
 			}
 			else {
 				if (map[y][x] == 0) {
@@ -109,7 +105,7 @@ int main(int /*argc*/, char ** /*argv*/)
 	}
 
 	unsigned int score = 0;
-
+	bool fruitPlaced = false;
 	unsigned int lives = 3;
 
 	//Always render Pacman And Ghosts last
@@ -210,7 +206,20 @@ int main(int /*argc*/, char ** /*argv*/)
 				objects[pacman.getX()][pacman.getY()].erase(objects[pacman.getX()][pacman.getY()].begin() + x);
 				score = score + 10;
 			}
+			else if (objects[pacman.getX()][pacman.getY()][x]->getType() == CHERRY) {
+				delete objects[pacman.getX()][pacman.getY()][x];
+				objects[pacman.getX()][pacman.getY()].erase(objects[pacman.getX()][pacman.getY()].begin() + x);
+				score = score + 200;
+				fruitPlaced = false;
+			}
+		}
 
+		// Placing fruit in the map at random position after certain score
+		if (((score % 200) == 0) && !fruitPlaced) {
+			Fruit* fruit = new Fruit(0, 0);
+			fruit->generateFruitPos(map);
+			objects[fruit->getX()][fruit->getY()].push_back(fruit);
+			fruitPlaced = true;
 		}
 
 
