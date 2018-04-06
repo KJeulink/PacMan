@@ -17,7 +17,6 @@
 #include "Blinky.h"
 #include "Clyde.h"
 #include "Pinky.h"
-#include "Fruit.h"
 
 /// Callback function to update the game state.
 ///
@@ -30,13 +29,30 @@ Uint32 gameUpdate(Uint32 interval, void * /*param*/)
 
 std::vector<GameObject> getStructs(std::vector<std::vector<std::vector<GameObject*>>> &objects) {
 	std::vector<GameObject> structs = {};
+	std::vector<GameObject> ghosts = {};
+	std::vector<GameObject> fruits = {};
+	std::vector<GameObject> pacman = {};
 	for (auto rows : objects) {
 		for (auto columns : rows) {
 			for (auto object : columns) {
-				structs.push_back(*object);
+				if ((object->getType() == INKY) || (object->getType() == BLINKY) || (object->getType() == PINKY) || (object->getType() == CLYDE)) {
+					ghosts.push_back(*object);
+				}
+				else if (object->getType() == CHERRY) {
+					fruits.push_back(*object);
+				}
+				else if (object->getType() == PACMAN) {
+					pacman.push_back(*object);
+				}
+				else {
+					structs.push_back(*object);
+				}
 			}
 		}
 	}
+	structs.insert(std::end(structs), std::begin(fruits), std::end(fruits));
+	structs.insert(std::end(structs), std::begin(ghosts), std::end(ghosts));
+	structs.insert(std::end(structs), std::begin(pacman), std::end(pacman));
 	return structs;
 }
 
@@ -69,14 +85,19 @@ int main(int /*argc*/, char ** /*argv*/)
 		std::vector<std::vector<GameObject*>>(map.size()));
 
     // Call game init code here
-	// Placing dots in the map
 	for (int y = 0; y < map.size(); y++) {
 		for (int x = 0; x < map[y].size(); x++) {
-			if (((y == 13) && (x < 6)) || ((y == 13) && (x > 21))) {
-				
+			if ((y == 13) && ((x == 6) || (x == 21))) {
+				if (map.at(y).at(x) == 0) {
+					Dots* dot = new Dots(x, y);
+					objects[x][y].push_back(dot);
+				}
 			}
-			else if (((y > 8) && (y < 18)) && ((x > 6) && (x < 21))) {
-				
+			else if ((y < 8) || (y > 17) && ((x < 8) || (x > 17))) {
+				if (map[y][x] == 0) {
+					Dots* dot = new Dots(x, y);
+					objects[x][y].push_back(dot);
+				}
 			}
 			else {
 				if (map[y][x] == 0) {
@@ -87,10 +108,9 @@ int main(int /*argc*/, char ** /*argv*/)
 		}
 	}
 
-
-
 	unsigned int score = 0;
-	bool fruitPlaced = false;
+
+	unsigned int lives = 3;
 
 	//Always render Pacman And Ghosts last
 	objects[pacman.getX()][pacman.getY()].push_back(&pacman);
@@ -99,6 +119,8 @@ int main(int /*argc*/, char ** /*argv*/)
 	objects[pinky.getX()][pinky.getY()].push_back(&pinky);
 	objects[blinky.getX()][blinky.getY()].push_back(&blinky);
 	objects[clyde.getX()][clyde.getY()].push_back(&clyde);
+
+	int counter = 0;
 
     bool quit = false;
     while (!quit) {
@@ -134,7 +156,52 @@ int main(int /*argc*/, char ** /*argv*/)
 					}
             }
         }
-		//PacMan* pacman = objects[0][0];
+
+		//Move Ghosts
+		if (!clyde.isMoving()) {
+			counter = counter + 1;
+		}
+		if ((counter > 0) && !inky.isMoving()) {
+			inky.setMoving(true);
+		}
+		if (inky.isMoving()) {
+			inky.move(map);
+		}
+
+		if ((counter > 20) && !blinky.isMoving()) {
+			blinky.setMoving(true);
+		}
+		if (blinky.isMoving()) {
+			blinky.move(map);
+		}
+
+		if ((counter > 40) && !pinky.isMoving()) {
+			pinky.setMoving(true);
+		}
+		if (pinky.isMoving()) {
+			pinky.move(map);
+		}
+
+		if ((counter > 60) && !clyde.isMoving()) {
+			clyde.setMoving(true);
+		}
+		if (clyde.isMoving()) {
+			clyde.move(map);
+		}
+
+		//move PacMan
+		/*int prevPacManX = pacman.getX();
+		int prevPacMany = pacman.getY();
+
+		for (size_t x = 0; x < objects[pacman.getX()][pacman.getY()].size(); x++) {
+			if ((objects[pacman.getX()][pacman.getY()][x]->getType() == INKY) || (objects[pacman.getX()][pacman.getY()][x]->getType() == BLINKY)
+					|| (objects[pacman.getX()][pacman.getY()][x]->getType() == PINKY) || (objects[pacman.getX()][pacman.getY()][x]->getType() == CLYDE)){
+				//delete objects[pacman.getX()][pacman.getY()][x];
+				//objects[pacman.getX()][pacman.getY()].erase(objects[pacman.getX()][pacman.getY()].begin() + x);
+				//score = score + 10;
+			}
+
+		}*/
 		pacman.move(map);
 
 		for (size_t x = 0; x < objects[pacman.getX()][pacman.getY()].size(); x++) {
@@ -143,35 +210,17 @@ int main(int /*argc*/, char ** /*argv*/)
 				objects[pacman.getX()][pacman.getY()].erase(objects[pacman.getX()][pacman.getY()].begin() + x);
 				score = score + 10;
 			}
-			else if (objects[pacman.getX()][pacman.getY()][x]->getType() == CHERRY) {
-				delete objects[pacman.getX()][pacman.getY()][x];
-				objects[pacman.getX()][pacman.getY()].erase(objects[pacman.getX()][pacman.getY()].begin() + x);
-				score = score + 200;
-				fruitPlaced = false;
-			}
+
 		}
 
-		inky.move(map);
-
-
-		// Placing fruit in the map at random position after certain score
-		if (((score % 200) == 0) && !fruitPlaced) {
-			Fruit* fruit = new Fruit(0, 0);
-			fruit->generateFruitPos(map);
-			objects[fruit->getX()][fruit->getY()].push_back(fruit);
-			fruitPlaced = true;
-		}
 
         // Set the score
-        ui.setScore(score); // <-- Pass correct value to the setter
+        ui.setScore(score);
 
         // Set the amount of lives
         ui.setLives(3); // <-- Pass correct value to the setter
 
         // Render the scene
-        //std::vector<GameObject> objects = {pacman};
-        // ^-- Your code should provide this vector somehow (e.g.
-        // game->getStructs())
         ui.update(getStructs(objects));
 
         while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout)) {
