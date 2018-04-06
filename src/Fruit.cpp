@@ -10,13 +10,11 @@ Fruit::Fruit(int x, int y) : GameObject(x, y, CHERRY, UP)
 Fruit::~Fruit()
 {
 }
-
+//generating random position of the fruit object
 void Fruit::generateFruitPos(std::vector<std::vector<int>> &map) {
-	//std::srand(std::time(nullptr)); // use current time as seed for random generator
-	//yFruit = std::rand() % map.size() + 0;
-	//xFruit = std::rand() % map[yFruit].size() + 0;
-	//no fruit in spawn area of ghost
-	std::srand(std::time(nullptr)); // use current time as seed for random generator
+	//use current time as seed for random generator
+	std::srand(std::time(nullptr)); 
+	//while loop until possible place for fruit is found
 	while (1) {
 
 		yFruit = std::rand() % map.size() + 0;

@@ -28,6 +28,7 @@ Uint32 gameUpdate(Uint32 interval, void * /*param*/)
     return interval;
 }
 
+//setting up a 3D vector for all objects
 std::vector<GameObject> getStructs(std::vector<std::vector<std::vector<GameObject*>>> &objects) {
 	std::vector<GameObject> structs = {};
 	std::vector<GameObject> ghosts = {};
@@ -71,7 +72,7 @@ int main(int /*argc*/, char ** /*argv*/)
     SDL_TimerID timer_id =
         SDL_AddTimer(100, gameUpdate, static_cast<void *>(nullptr));
 
-    // Example object, this can be removed later
+    // Creating objects and put them in the right place
     PacMan pacman(14, 21);
 
 	Inky inky(14, 13);
@@ -86,7 +87,7 @@ int main(int /*argc*/, char ** /*argv*/)
 		std::vector<std::vector<GameObject*>>(map.size()));
 
 	// Call game init code here
-	// Placing dots in the map
+	// Placing dots in the map only on the paths and not in the middle
 	for (int y = 0; y < map.size(); y++) {
 		for (int x = 0; x < map[y].size(); x++) {
 			if (((y == 13) && (x < 6)) || ((y == 13) && (x > 21))) {
@@ -105,6 +106,7 @@ int main(int /*argc*/, char ** /*argv*/)
 	}
 
 	unsigned int score = 0;
+	//init flag if already fruit is placed
 	bool fruitPlaced = false;
 	unsigned int lives = 3;
 
@@ -134,16 +136,16 @@ int main(int /*argc*/, char ** /*argv*/)
             // All keydown events
             if (e.type == SDL_KEYDOWN) {
 				switch (e.key.keysym.sym) {
-					case SDLK_LEFT: // YOUR CODE HERE
+					case SDLK_LEFT: 
 						pacman.setDirection(LEFT);
 						break;
-					case SDLK_RIGHT: // YOUR CODE HERE
+					case SDLK_RIGHT:
 						pacman.setDirection(RIGHT);
 						break;
-					case SDLK_UP: // YOUR CODE HERE
+					case SDLK_UP:
 						pacman.setDirection(UP);
 						break;
-					case SDLK_DOWN: // YOUR CODE HERE
+					case SDLK_DOWN: 
 						pacman.setDirection(DOWN);
 						break;
 					case SDLK_ESCAPE:
@@ -200,21 +202,24 @@ int main(int /*argc*/, char ** /*argv*/)
 		}*/
 		pacman.move(map);
 
+		//pacman interacting with dots and fruit using the 3D vector map.
 		for (size_t x = 0; x < objects[pacman.getX()][pacman.getY()].size(); x++) {
 			if (objects[pacman.getX()][pacman.getY()][x]->getType() == DOT) {
 				delete objects[pacman.getX()][pacman.getY()][x];
 				objects[pacman.getX()][pacman.getY()].erase(objects[pacman.getX()][pacman.getY()].begin() + x);
 				score = score + 10;
+				x--;
 			}
 			else if (objects[pacman.getX()][pacman.getY()][x]->getType() == CHERRY) {
 				delete objects[pacman.getX()][pacman.getY()][x];
 				objects[pacman.getX()][pacman.getY()].erase(objects[pacman.getX()][pacman.getY()].begin() + x);
 				score = score + 200;
 				fruitPlaced = false;
+				x--;
 			}
 		}
 
-		// Placing fruit in the map at random position after certain score
+		// Placing fruit in the map at random position after certain score is reached.
 		if (((score % 200) == 0) && !fruitPlaced) {
 			Fruit* fruit = new Fruit(0, 0);
 			fruit->generateFruitPos(map);

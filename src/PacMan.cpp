@@ -11,6 +11,7 @@ PacMan::~PacMan()
 {
 }
 
+//PacMan move function which moves PacMan in the direction corresponding to the input of the player
 void PacMan::move(std::vector<std::vector<int>> &map) {
 	int tempX = getX();
 	int tempY = getY();
