@@ -1,10 +1,14 @@
+#ifndef DOTS_H
+#define DOTS_H
+
 #pragma once
-#include "Object.h"
+#include "GameObject.h"
 class Dots :
-	public Object
+	public GameObject
 {
 public:
-	Dots();
+	Dots(int x, int y);
 	~Dots();
 };
 
+#endif //DOTS_H

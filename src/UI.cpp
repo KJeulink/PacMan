@@ -29,7 +29,7 @@ UI::~UI()
     SDL_Quit();
 }
 
-void UI::update(std::vector<GameObjectStruct> objects)
+void UI::update(std::vector<GameObject> objects)
 {
     // Clear the current renderer.
     SDL_RenderClear(renderer);
@@ -45,8 +45,8 @@ void UI::update(std::vector<GameObjectStruct> objects)
 
     // Loop through all the objects and draw them.
     for (auto &element : objects) {
-        SDL_Rect dst = {element.x * 24, element.y * 24, 24, 24};
-        SDL_RenderCopy(renderer, sheet, &clips[element.type][element.dir],
+        SDL_Rect dst = {element.getX() * 24, element.getY() * 24, 24, 24};
+        SDL_RenderCopy(renderer, sheet, &clips[element.getType()][element.getDirection()],
                        &dst);
     }
 

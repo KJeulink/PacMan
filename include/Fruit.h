@@ -1,10 +1,14 @@
+#ifndef FRUIT_H
+#define FRUIT_H
+
 #pragma once
-#include "Object.h"
+#include "GameObject.h"
 class Fruit :
-	public Object
+	public GameObject
 {
 public:
-	Fruit();
+	Fruit(int x, int y);
 	~Fruit();
 };
 
+#endif //FRUIT

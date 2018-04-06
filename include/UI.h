@@ -12,7 +12,7 @@
 #ifndef SRC_UI_H_
 #define SRC_UI_H_
 
-#include "GameObjectStruct.h"
+#include "GameObject.h"
 
 #include <SDL2/SDL.h>
 
@@ -57,7 +57,7 @@ class UI
     /// - Draw the objects (last)
     ///
     /// \param objects Objects that are drawn last.
-    void update(std::vector<GameObjectStruct> objects);
+    void update(std::vector<GameObject> objects);
 
   private:
     void init();

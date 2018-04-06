@@ -1,5 +1,5 @@
 /// \file
-/// GameObjectStruct.h
+/// GameObject.h
 
 /*
  *  Created on: Jan 30, 2015
@@ -7,8 +7,8 @@
  *       Group: TA's
  */
 
-#ifndef SRC_GAMEOBJECTSTRUCT_H
-#define SRC_GAMEOBJECTSTRUCT_H
+#ifndef SRC_GAMEOBJECT_H
+#define SRC_GAMEOBJECT_H
 
 /// These enum values denote the sprite sets available for items on screen.
 enum Type {
@@ -44,7 +44,7 @@ enum Type {
 enum Direction { UP, DOWN, LEFT, RIGHT };
 
 /// This represents an item that is drawn onto the screen.
-struct GameObjectStruct {
+class GameObject {
     /// x-position of the item.
     int x;
     /// y-position of the item.
@@ -53,6 +53,19 @@ struct GameObjectStruct {
     Type type;
     /// The direction of the item (sprite selection).
     Direction dir;
+
+public:
+	GameObject(int x, int y, Type type, Direction dir);
+	virtual ~GameObject();
+
+	void setPosition(int x, int y);
+	void setType(Type type);
+	void setDirection(Direction dir);
+
+	int getX();
+	int getY();
+	Type getType();
+	Direction getDirection();
 };
 
-#endif // SRC_GAMEOBJECTSTRUCT_H
+#endif // SRC_GAMEOBJECT_H
