@@ -13,7 +13,7 @@ Inky::~Inky()
 
 void Inky::move(std::vector<std::vector<int>> &map) {
 	std::srand(std::time(nullptr)); // use current time as seed for random generator
-	int random_variable = std::rand();
+	int random_variable = std::rand() % 3 + 0;
 
 	int tempX = getX();
 	int tempY = getY();
@@ -28,6 +28,9 @@ void Inky::move(std::vector<std::vector<int>> &map) {
 			tempX = sizeX - 1;
 			setPosition(tempX, tempY);
 		}
+		else {
+			move(map);
+		}
 	}
 	else if (getDirection() == RIGHT) {
 		tempX = tempX + 1;
@@ -39,6 +42,9 @@ void Inky::move(std::vector<std::vector<int>> &map) {
 		else if ((tempX == sizeX) && (map[tempY][0] == 0)) {
 			tempX = 0;
 			setPosition(tempX, tempY);
+		}
+		else {
+			move(map);
 		}
 	}
 	else if (getDirection() == UP) {
@@ -52,6 +58,9 @@ void Inky::move(std::vector<std::vector<int>> &map) {
 			tempY = sizeY - 1;
 			setPosition(tempX, tempY);
 		}
+		else {
+			move(map);
+		}
 	}
 	else if (getDirection() == DOWN) {
 		tempX = tempX;
@@ -63,6 +72,9 @@ void Inky::move(std::vector<std::vector<int>> &map) {
 		else if ((tempY == sizeY) && (map[tempY][0] == 0)) {
 			tempY = 0;
 			setPosition(tempX, tempY);
+		}
+		else {
+			move(map);
 		}
 	}
 }

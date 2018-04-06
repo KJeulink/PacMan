@@ -135,7 +135,7 @@ int main(int /*argc*/, char ** /*argv*/)
 					}
             }
         }
-		//PacMan* pacman = objects[0][0];
+		//move PacMan
 		pacman.move(map);
 
 		for (size_t x = 0; x < objects[pacman.getX()][pacman.getY()].size(); x++) {
@@ -146,18 +146,16 @@ int main(int /*argc*/, char ** /*argv*/)
 			}
 		}
 
+		//Move Ghosts
 		inky.move(map);
 
         // Set the score
-        ui.setScore(score); // <-- Pass correct value to the setter
+        ui.setScore(score);
 
         // Set the amount of lives
         ui.setLives(3); // <-- Pass correct value to the setter
 
         // Render the scene
-        //std::vector<GameObject> objects = {pacman};
-        // ^-- Your code should provide this vector somehow (e.g.
-        // game->getStructs())
         ui.update(getStructs(objects));
 
         while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout)) {
