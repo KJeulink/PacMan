@@ -17,6 +17,7 @@
 #include "Blinky.h"
 #include "Clyde.h"
 #include "Pinky.h"
+#include "Fruit.h"
 
 /// Callback function to update the game state.
 ///
@@ -68,6 +69,7 @@ int main(int /*argc*/, char ** /*argv*/)
 		std::vector<std::vector<GameObject*>>(map.size()));
 
     // Call game init code here
+	// Placing dots in the map
 	for (int y = 0; y < map.size(); y++) {
 		for (int x = 0; x < map[y].size(); x++) {
 			if (((y == 13) && (x < 6)) || ((y == 13) && (x > 21))) {
@@ -85,7 +87,10 @@ int main(int /*argc*/, char ** /*argv*/)
 		}
 	}
 
+
+
 	unsigned int score = 0;
+	bool fruitPlaced = false;
 
 	//Always render Pacman And Ghosts last
 	objects[pacman.getX()][pacman.getY()].push_back(&pacman);
@@ -138,9 +143,24 @@ int main(int /*argc*/, char ** /*argv*/)
 				objects[pacman.getX()][pacman.getY()].erase(objects[pacman.getX()][pacman.getY()].begin() + x);
 				score = score + 10;
 			}
+			else if (objects[pacman.getX()][pacman.getY()][x]->getType() == CHERRY) {
+				delete objects[pacman.getX()][pacman.getY()][x];
+				objects[pacman.getX()][pacman.getY()].erase(objects[pacman.getX()][pacman.getY()].begin() + x);
+				score = score + 200;
+				fruitPlaced = false;
+			}
 		}
 
 		inky.move(map);
+
+
+		// Placing fruit in the map at random position after certain score
+		if (((score % 200) == 0) && !fruitPlaced) {
+			Fruit* fruit = new Fruit(0, 0);
+			fruit->generateFruitPos(map);
+			objects[fruit->getX()][fruit->getY()].push_back(fruit);
+			fruitPlaced = true;
+		}
 
         // Set the score
         ui.setScore(score); // <-- Pass correct value to the setter
