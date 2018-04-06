@@ -3,12 +3,17 @@
 
 #pragma once
 #include "Ghost.h"
+#include <vector>
+#include <ctime>
+
 class Blinky :
 	public Ghost
 {
 public:
-	Blinky(int x, int y, Type ype, Direction dir);;
+	Blinky(int x, int y);
 	~Blinky();
+
+	void move(std::vector<std::vector<int>> &map);
 };
 
 #endif //BLINKY_H

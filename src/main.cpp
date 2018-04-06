@@ -13,6 +13,10 @@
 #include <vector>
 #include "PacMan.h"
 #include "Dots.h"
+#include "Inky.h"
+#include "Blinky.h"
+#include "Clyde.h"
+#include "Pinky.h"
 
 /// Callback function to update the game state.
 ///
@@ -21,6 +25,18 @@ Uint32 gameUpdate(Uint32 interval, void * /*param*/)
 {
     // Do game loop update here
     return interval;
+}
+
+std::vector<GameObject> getStructs(std::vector<std::vector<std::vector<GameObject*>>> &objects) {
+	std::vector<GameObject> structs = {};
+	for (auto rows : objects) {
+		for (auto columns : rows) {
+			for (auto object : columns) {
+				structs.push_back(*object);
+			}
+		}
+	}
+	return structs;
 }
 
 /// Program entry point.
@@ -38,29 +54,52 @@ int main(int /*argc*/, char ** /*argv*/)
         SDL_AddTimer(100, gameUpdate, static_cast<void *>(nullptr));
 
     // Example object, this can be removed later
-    PacMan pacman(1, 1);
+    PacMan pacman(14, 21);
+
+	Inky inky(14, 13);
+	Pinky pinky(13, 13);
+	Clyde clyde(12, 13);
+	Blinky blinky(15, 13);
+
+
+	//initialize gameObjects vector of map
+	std::vector<std::vector<std::vector<GameObject*>>> objects(
+		map[0].size(),
+		std::vector<std::vector<GameObject*>>(map.size()));
 
     // Call game init code here
-
 	for (int y = 0; y < map.size(); y++) {
 		for (int x = 0; x < map[y].size(); x++) {
 			if ((y == 13) && ((x == 6) || (x == 21))) {
 				if (map.at(y).at(x) == 0) {
-					Dots dot(x, y);
+					Dots* dot = new Dots(x, y);
+					objects[x][y].push_back(dot);
 				}
 			}
 			else if ((y < 8) || (y > 17) && ((x < 8) || (x > 17))) {
 				if (map[y][x] == 0) {
-					Dots dot(x, y);
+					Dots* dot = new Dots(x, y);
+					objects[x][y].push_back(dot);
 				}
 			}
 			else {
 				if (map[y][x] == 0) {
-					Dots dot(x, y);
+					Dots* dot = new Dots(x, y);
+					objects[x][y].push_back(dot);
 				}
 			}
 		}
 	}
+
+	unsigned int score = 0;
+
+	//Always render Pacman And Ghosts last
+	objects[pacman.getX()][pacman.getY()].push_back(&pacman);
+
+	objects[inky.getX()][inky.getY()].push_back(&inky);
+	objects[pinky.getX()][pinky.getY()].push_back(&pinky);
+	objects[blinky.getX()][blinky.getY()].push_back(&blinky);
+	objects[clyde.getX()][clyde.getY()].push_back(&clyde);
 
     bool quit = false;
     while (!quit) {
@@ -74,8 +113,7 @@ int main(int /*argc*/, char ** /*argv*/)
             if (e.type == SDL_QUIT) {
                 quit = true;
             }
-			int tempX = 0;
-			int tempY = 0;
+			
             // All keydown events
             if (e.type == SDL_KEYDOWN) {
 				switch (e.key.keysym.sym) {
@@ -93,62 +131,34 @@ int main(int /*argc*/, char ** /*argv*/)
 						break;
 					case SDLK_ESCAPE:
 						quit = true;
+						break;
 					}
             }
-
-			if (pacman.getDirection() == LEFT) {
-				tempX = pacman.getX() - 1;
-				tempY = pacman.getY();
-				if ((tempX >= 0) && (map[tempY][tempX] == 0)) {
-					pacman.setPosition(tempX, tempY);
-				}
-				else if ((tempX < 0) && (map[tempY][map[tempY].size() - 1] == 0)) {
-					pacman.setPosition(map[tempY].size() - 1, tempY);
-				}
-			}
-			else if (pacman.getDirection() == RIGHT) {
-				tempX = pacman.getX() + 1;
-				tempY = pacman.getY();
-				if ((tempX < map[tempY].size()) && (map[tempY][tempX] == 0)) {
-					pacman.setPosition(tempX, tempY);
-				}
-				else if ((tempX == map[tempY].size()) && (map[tempY][0] == 0)) {
-					pacman.setPosition(0, tempY);
-				}
-			}
-			else if (pacman.getDirection() == UP) {
-				tempX = pacman.getX();
-				tempY = pacman.getY() - 1;
-				if ((tempY >= 0) && (map[tempY][tempX] == 0)) {
-					pacman.setPosition(tempX, tempY);
-				}
-				else if ((tempY < 0) && (map[map.size() - 1][tempX] == 0)) {
-					pacman.setPosition(tempX, map.size() - 1);
-				}
-			}
-			else if (pacman.getDirection() == DOWN) {
-				tempX = pacman.getX();
-				tempY = pacman.getY() + 1;
-				if ((tempY < map.size()) && (map[tempY][tempX] == 0)) {
-					pacman.setPosition(tempX, tempY);
-				}
-				else if ((tempY == map.size()) && (map[tempY][0] == 0)) {
-					pacman.setPosition(tempX, 0);
-				}
-			}
         }
+		//PacMan* pacman = objects[0][0];
+		pacman.move(map);
+
+		for (size_t x = 0; x < objects[pacman.getX()][pacman.getY()].size(); x++) {
+			if (objects[pacman.getX()][pacman.getY()][x]->getType() == DOT) {
+				delete objects[pacman.getX()][pacman.getY()][x];
+				objects[pacman.getX()][pacman.getY()].erase(objects[pacman.getX()][pacman.getY()].begin() + x);
+				score = score + 10;
+			}
+		}
+
+		inky.move(map);
 
         // Set the score
-        ui.setScore(12345); // <-- Pass correct value to the setter
+        ui.setScore(score); // <-- Pass correct value to the setter
 
         // Set the amount of lives
         ui.setLives(3); // <-- Pass correct value to the setter
 
         // Render the scene
-        std::vector<GameObject> objects = {pacman};
+        //std::vector<GameObject> objects = {pacman};
         // ^-- Your code should provide this vector somehow (e.g.
         // game->getStructs())
-        ui.update(objects);
+        ui.update(getStructs(objects));
 
         while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout)) {
             // ... do work until timeout has elapsed
