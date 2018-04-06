@@ -121,6 +121,7 @@ int main(int /*argc*/, char ** /*argv*/)
 	objects[clyde.getX()][clyde.getY()].push_back(&clyde);
 
 	int counter = 0;
+	bool ghostOnPrevPos = false;
 
     bool quit = false;
     while (!quit) {
@@ -166,6 +167,13 @@ int main(int /*argc*/, char ** /*argv*/)
 		}
 		if (inky.isMoving()) {
 			inky.move(map);
+			objects[inky.getX()][inky.getY()].push_back(&inky);
+			for (size_t x = 0; x < objects[inky.getPrevX()][inky.getPrevY()].size(); x++) {
+				Type type = objects[inky.getPrevX()][inky.getPrevY()][x]->getType();
+				if (type == INKY) {
+					objects[inky.getPrevX()][inky.getPrevY()].erase(objects[inky.getPrevX()][inky.getPrevY()].begin() + x);
+				}
+			}
 		}
 
 		if ((counter > 20) && !blinky.isMoving()) {
@@ -173,6 +181,13 @@ int main(int /*argc*/, char ** /*argv*/)
 		}
 		if (blinky.isMoving()) {
 			blinky.move(map);
+			objects[blinky.getX()][blinky.getY()].push_back(&blinky);
+			for (size_t x = 0; x < objects[blinky.getPrevX()][blinky.getPrevY()].size(); x++) {
+				Type type = objects[blinky.getPrevX()][blinky.getPrevY()][x]->getType();
+				if (type == BLINKY) {
+					objects[blinky.getPrevX()][blinky.getPrevY()].erase(objects[blinky.getPrevX()][blinky.getPrevY()].begin() + x);
+				}
+			}
 		}
 
 		if ((counter > 40) && !pinky.isMoving()) {
@@ -180,6 +195,13 @@ int main(int /*argc*/, char ** /*argv*/)
 		}
 		if (pinky.isMoving()) {
 			pinky.move(map);
+			objects[pinky.getX()][pinky.getY()].push_back(&pinky);
+			for (size_t x = 0; x < objects[pinky.getPrevX()][pinky.getPrevY()].size(); x++) {
+				Type type = objects[pinky.getPrevX()][pinky.getPrevY()][x]->getType();
+				if (type == PINKY) {
+					objects[pinky.getPrevX()][pinky.getPrevY()].erase(objects[pinky.getPrevX()][pinky.getPrevY()].begin() + x);
+				}
+			}
 		}
 
 		if ((counter > 60) && !clyde.isMoving()) {
@@ -187,76 +209,83 @@ int main(int /*argc*/, char ** /*argv*/)
 		}
 		if (clyde.isMoving()) {
 			clyde.move(map);
-		}
-
-		for (size_t x = 0; x < objects[inky.getPrevX()][inky.getPrevY()].size(); x++) {
-			if (objects[inky.getPrevX()][inky.getPrevY()][x]->getType() == INKY) {
-				GameObject* object = objects[inky.getPrevX()][inky.getPrevY()][x];
-				objects[inky.getPrevX()][inky.getPrevY()].erase(objects[inky.getPrevX()][inky.getPrevY()].begin() + x);
-				objects[inky.getX()][inky.getY()].push_back(object);
+			objects[clyde.getX()][clyde.getY()].push_back(&clyde);
+			for (size_t x = 0; x < objects[clyde.getPrevX()][clyde.getPrevY()].size(); x++) {
+				Type type = objects[clyde.getPrevX()][clyde.getPrevY()][x]->getType();
+				if (type == CLYDE) {
+					objects[clyde.getPrevX()][clyde.getPrevY()].erase(objects[clyde.getPrevX()][clyde.getPrevY()].begin() + x);
+				}
 			}
 		}
 
-		for (size_t x = 0; x < objects[pinky.getPrevX()][pinky.getPrevY()].size(); x++) {
-			if (objects[pinky.getPrevX()][pinky.getPrevY()][x]->getType() == PINKY) {
-				GameObject* object = objects[pinky.getPrevX()][pinky.getPrevY()][x];
-				objects[pinky.getPrevX()][pinky.getPrevY()].erase(objects[pinky.getPrevX()][pinky.getPrevY()].begin() + x);
-				objects[pinky.getX()][pinky.getY()].push_back(object);
-			}
-		}
-
-		for (size_t x = 0; x < objects[blinky.getPrevX()][blinky.getPrevY()].size(); x++) {
-			if (objects[blinky.getPrevX()][blinky.getPrevY()][x]->getType() == BLINKY) {
-				GameObject* object = objects[blinky.getPrevX()][blinky.getPrevY()][x];
-				objects[blinky.getPrevX()][blinky.getPrevY()].erase(objects[blinky.getPrevX()][blinky.getPrevY()].begin() + x);
-				objects[blinky.getX()][blinky.getY()].push_back(object);
-			}
-		}
-
-		for (size_t x = 0; x < objects[clyde.getPrevX()][clyde.getPrevY()].size(); x++) {
-			if (objects[clyde.getPrevX()][clyde.getPrevY()][x]->getType() == CLYDE) {
-				GameObject* object = objects[clyde.getPrevX()][clyde.getPrevY()][x];
-				objects[clyde.getPrevX()][clyde.getPrevY()].erase(objects[clyde.getPrevX()][clyde.getPrevY()].begin() + x);
-				objects[clyde.getX()][clyde.getY()].push_back(object);
-			}
-		}
 
 		//move PacMan
-		int prevPacManX = pacman.getX();
-		int prevPacMany = pacman.getY();
-		bool ghostOnPrevPos = false;
-		for (size_t x = 0; x < objects[pacman.getX()][pacman.getY()].size(); x++) {
-			if ((objects[pacman.getX()][pacman.getY()][x]->getType() == INKY) || (objects[pacman.getX()][pacman.getY()][x]->getType() == BLINKY)
-					|| (objects[pacman.getX()][pacman.getY()][x]->getType() == PINKY) || (objects[pacman.getX()][pacman.getY()][x]->getType() == CLYDE)){
-				ghostOnPrevPos = true;
-			}
-
-		}
 		pacman.move(map);
 
+		if ((inky.getX() == pacman.getX()) && (inky.getY() == pacman.getY()) || (blinky.getX() == pacman.getX()) && (blinky.getY() == pacman.getY())
+				
+			|| (pinky.getX() == pacman.getX()) && (pinky.getY() == pacman.getY()) || (clyde.getX() == pacman.getX()) && (clyde.getY() == pacman.getY())
+			
+			|| ((inky.getPrevX() == pacman.getX()) && (inky.getPrevY() == pacman.getY()) && (inky.getX() == pacman.getPrevX()) && (inky.getY() == pacman.getPrevY()))
+			
+			|| ((blinky.getPrevX() == pacman.getX()) && (blinky.getPrevY() == pacman.getY()) && (blinky.getX() == pacman.getPrevX()) && (blinky.getY() == pacman.getPrevY()))
+			
+			|| ((pinky.getPrevX() == pacman.getX()) && (pinky.getPrevY() == pacman.getY()) && (pinky.getX() == pacman.getPrevX()) && (pinky.getY() == pacman.getPrevY()))
+			
+			|| ((clyde.getPrevX() == pacman.getX()) && (clyde.getPrevY() == pacman.getY()) && (clyde.getX() == pacman.getPrevX()) && (clyde.getY() == pacman.getPrevY()))
+			
+			) {
+			ui.update(getStructs(objects));
+			if (lives > 0) {
+				lives = lives - 1;
+				counter = 0;
+				for (size_t x = 0; x < objects[inky.getPrevX()][inky.getPrevY()].size(); x++) {
+					Type type = objects[inky.getPrevX()][inky.getPrevY()][x]->getType();
+					if (type == INKY) {
+						objects[inky.getPrevX()][inky.getPrevY()].erase(objects[inky.getPrevX()][inky.getPrevY()].begin() + x);
+					}
+				}
+				for (size_t x = 0; x < objects[blinky.getPrevX()][blinky.getPrevY()].size(); x++) {
+					Type type = objects[blinky.getPrevX()][blinky.getPrevY()][x]->getType();
+					if (type == BLINKY) {
+						objects[blinky.getPrevX()][blinky.getPrevY()].erase(objects[blinky.getPrevX()][blinky.getPrevY()].begin() + x);
+					}
+				}
+				for (size_t x = 0; x < objects[pinky.getPrevX()][pinky.getPrevY()].size(); x++) {
+					Type type = objects[pinky.getPrevX()][pinky.getPrevY()][x]->getType();
+					if (type == PINKY) {
+						objects[pinky.getPrevX()][pinky.getPrevY()].erase(objects[pinky.getPrevX()][pinky.getPrevY()].begin() + x);
+					}
+				}
+				for (size_t x = 0; x < objects[clyde.getPrevX()][clyde.getPrevY()].size(); x++) {
+					Type type = objects[clyde.getPrevX()][clyde.getPrevY()][x]->getType();
+					if (type == CLYDE) {
+						objects[clyde.getPrevX()][clyde.getPrevY()].erase(objects[clyde.getPrevX()][clyde.getPrevY()].begin() + x);
+					}
+				}
+				pacman.reset();
+				inky.reset();
+				pinky.reset();
+				blinky.reset();
+				clyde.reset();
+				objects[inky.getX()][inky.getY()].push_back(&inky);
+				objects[blinky.getX()][blinky.getY()].push_back(&blinky);
+				objects[pinky.getX()][pinky.getY()].push_back(&pinky);
+				objects[clyde.getX()][clyde.getY()].push_back(&clyde);
+				ui.update(getStructs(objects));
+			}
+			else {
+				quit = true;
+			}
+		}
+
 		for (size_t x = 0; x < objects[pacman.getX()][pacman.getY()].size(); x++) {
-			if (objects[pacman.getX()][pacman.getY()][x]->getType() == DOT) {
+			Type type = objects[pacman.getX()][pacman.getY()][x]->getType();
+			if (type == DOT) {
 				delete objects[pacman.getX()][pacman.getY()][x];
 				objects[pacman.getX()][pacman.getY()].erase(objects[pacman.getX()][pacman.getY()].begin() + x);
 				score = score + 10;
 			}
-			else if ((objects[pacman.getX()][pacman.getY()][x]->getType() == INKY) || (objects[pacman.getX()][pacman.getY()][x]->getType() == BLINKY)
-				|| (objects[pacman.getX()][pacman.getY()][x]->getType() == PINKY) || (objects[pacman.getX()][pacman.getY()][x]->getType() == CLYDE)) {
-				if (ghostOnPrevPos) {
-					if (lives > 0) {
-						lives = lives - 1;
-						pacman.reset();
-						inky.reset();
-						pinky.reset();
-						blinky.reset();
-						clyde.reset();
-					}
-					else {
-
-					}
-				}
-			}
-
 		}
 
 
@@ -264,7 +293,7 @@ int main(int /*argc*/, char ** /*argv*/)
         ui.setScore(score);
 
         // Set the amount of lives
-        ui.setLives(3); // <-- Pass correct value to the setter
+        ui.setLives(lives); // <-- Pass correct value to the setter
 
         // Render the scene
         ui.update(getStructs(objects));

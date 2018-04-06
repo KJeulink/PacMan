@@ -7,19 +7,12 @@
 class Ghost :
 	public MovingObject
 {
-	int prevX = 0;
-	int prevY = 0;
 	bool moving;
 public:
 	Ghost(int x, int y, Type type, Direction dir);
 	virtual ~Ghost();
 
-	void setPrevX(int x);
-	void setPrevY(int y);
 	void setMoving(bool moving);
-
-	int getPrevX();
-	int getPrevY();
 
 	bool isMoving();
 };
