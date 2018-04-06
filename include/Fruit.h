@@ -9,6 +9,13 @@ class Fruit :
 public:
 	Fruit(int x, int y);
 	~Fruit();
+
+void generateFruitPos(std::vector<std::vector<int>> &map);
+
+
+private:
+	int yFruit;
+	int xFruit;
 };
 
 #endif //FRUIT
