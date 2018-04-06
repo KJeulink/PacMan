@@ -13,7 +13,6 @@ public:
 	~Pinky();
 
 	void move(std::vector<std::vector<int>> &map);
-	void moveHelper(std::vector<std::vector<int>> &map, std::vector<Direction> options);
 };
 
 #endif //PINKY_H

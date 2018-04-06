@@ -14,7 +14,6 @@ public:
 	~Inky();
 
 	void move(std::vector<std::vector<int>> &map);
-	void moveHelper(std::vector<std::vector<int>> &map, std::vector<Direction> options);
 };
 
 #endif //INKY_H
