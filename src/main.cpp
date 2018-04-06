@@ -70,17 +70,11 @@ int main(int /*argc*/, char ** /*argv*/)
     // Call game init code here
 	for (int y = 0; y < map.size(); y++) {
 		for (int x = 0; x < map[y].size(); x++) {
-			if ((y == 13) && ((x == 6) || (x == 21))) {
-				if (map.at(y).at(x) == 0) {
-					Dots* dot = new Dots(x, y);
-					objects[x][y].push_back(dot);
-				}
+			if (((y == 13) && (x < 6)) || ((y == 13) && (x > 21))) {
+				
 			}
-			else if ((y < 8) || (y > 17) && ((x < 8) || (x > 17))) {
-				if (map[y][x] == 0) {
-					Dots* dot = new Dots(x, y);
-					objects[x][y].push_back(dot);
-				}
+			else if (((y > 8) && (y < 18)) && ((x > 6) && (x < 21))) {
+				
 			}
 			else {
 				if (map[y][x] == 0) {
