@@ -1,7 +1,9 @@
 #include "Blinky.h"
 
+//implementation of other ghosts are almost the same as blinky, except for the random seed and time when movement is allowed.
 
 
+//constructor of blinky
 Blinky::Blinky(int x, int y) : Ghost(x, y, BLINKY, UP)
 {
 }
@@ -10,7 +12,7 @@ Blinky::Blinky(int x, int y) : Ghost(x, y, BLINKY, UP)
 Blinky::~Blinky()
 {
 }
-
+//reset function blinky (reset position and movement allowence)
 void Blinky::reset() {
 	setPosition(15, 13);
 	setPrevX(15);
@@ -18,12 +20,12 @@ void Blinky::reset() {
 	setType(BLINKY);
 	setMoving(false);
 }
-
+//move function of blinky
 void Blinky::move(std::vector<std::vector<int>> &map) {
 	std::vector<Direction> options = { LEFT, RIGHT, UP, DOWN };
 	moveHelper(map, options);
 }
-
+//actually moves blinky
 void Blinky::moveHelper(std::vector<std::vector<int>> &map, std::vector<Direction> options) {
 	int back_chance;
 	if (options.size() == 0) {
@@ -39,11 +41,12 @@ void Blinky::moveHelper(std::vector<std::vector<int>> &map, std::vector<Directio
 	random_direction = random_direction - 1;
 
 
-
+	//uses random direction to set direction
 	setDirection(options[random_direction]);
 
 	int tempX = getX();
 	int tempY = getY();
+	//check if going to left is possible
 	if (getDirection() == LEFT) {
 		tempX = tempX - 1;
 		tempY = tempY;
@@ -70,6 +73,7 @@ void Blinky::moveHelper(std::vector<std::vector<int>> &map, std::vector<Directio
 			}
 		}
 	}
+	//check if going to right is possible
 	else if (getDirection() == RIGHT) {
 		tempX = tempX + 1;
 		tempY = tempY;
@@ -96,6 +100,7 @@ void Blinky::moveHelper(std::vector<std::vector<int>> &map, std::vector<Directio
 			}
 		}
 	}
+	//check if going to up is possible
 	else if (getDirection() == UP) {
 		tempX = tempX;
 		tempY = tempY - 1;
@@ -122,6 +127,7 @@ void Blinky::moveHelper(std::vector<std::vector<int>> &map, std::vector<Directio
 			}
 		}
 	}
+	//check if going to down is possible
 	else if (getDirection() == DOWN) {
 		tempX = tempX;
 		tempY = tempY + 1;

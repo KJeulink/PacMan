@@ -1,6 +1,7 @@
 #include "Inky.h"
 #include <iostream>
 
+//implementation of other ghosts are almost the same as blinky, except for the random seed and time when movement is allowed.
 
 Inky::Inky(int x, int y) : Ghost(x, y, INKY, UP)
 {

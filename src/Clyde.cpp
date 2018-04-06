@@ -1,6 +1,6 @@
 #include "Clyde.h"
 
-
+//implementation of other ghosts are almost the same as blinky, except for the random seed and time when movement is allowed.
 
 Clyde::Clyde(int x, int y) : Ghost(x, y, CLYDE, UP)
 {

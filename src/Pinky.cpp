@@ -1,6 +1,6 @@
 #include "Pinky.h"
 
-
+//implementation of other ghosts are almost the same as blinky, except for the random seed and time when movement is allowed.
 
 Pinky::Pinky(int x, int y) : Ghost(x, y, PINKY, UP)
 {

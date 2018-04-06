@@ -17,7 +17,7 @@ void PacMan::reset() {
 	setType(PACMAN);
 }
 
-//PacMan move function which moves PacMan in the direction corresponding to the input of the player
+//PacMan move function which moves PacMan in the direction corresponding to the input of the player and check if it is allowed to move a certain direction
 void PacMan::move(std::vector<std::vector<int>> &map) {
 	int tempX = getX();
 	int tempY = getY();
