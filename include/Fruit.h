@@ -14,6 +14,7 @@ public:
 	~Fruit();
 
 	void generateFruitPos(std::vector<std::vector<int>> &map);
+	//hallo
 
 private:
 	int yFruit;
