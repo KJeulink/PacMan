@@ -11,6 +11,11 @@ Clyde::~Clyde()
 {
 }
 
+void Clyde::reset() {
+	setPosition(12, 13);
+	setType(CLYDE);
+}
+
 void Clyde::move(std::vector<std::vector<int>> &map) {
 	std::vector<Direction> options = { LEFT, RIGHT, UP, DOWN };
 	moveHelper(map, options);

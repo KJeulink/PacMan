@@ -11,6 +11,11 @@ Blinky::~Blinky()
 {
 }
 
+void Blinky::reset() {
+	setPosition(15, 13);
+	setType(BLINKY);
+}
+
 void Blinky::move(std::vector<std::vector<int>> &map) {
 	std::vector<Direction> options = { LEFT, RIGHT, UP, DOWN };
 	moveHelper(map, options);

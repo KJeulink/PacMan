@@ -11,6 +11,11 @@ Pinky::~Pinky()
 {
 }
 
+void Pinky::reset() {
+	setPosition(13, 13);
+	setType(PINKY);
+}
+
 void Pinky::move(std::vector<std::vector<int>> &map) {
 	std::vector<Direction> options = { LEFT, RIGHT, UP, DOWN };
 	moveHelper(map, options);

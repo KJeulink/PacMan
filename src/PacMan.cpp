@@ -11,6 +11,11 @@ PacMan::~PacMan()
 {
 }
 
+void PacMan::reset() {
+	setPosition(14, 21);
+	setType(PACMAN);
+}
+
 void PacMan::move(std::vector<std::vector<int>> &map) {
 	int tempX = getX();
 	int tempY = getY();

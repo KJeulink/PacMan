@@ -11,6 +11,8 @@ public:
 	Clyde(int x, int y);;
 	~Clyde();
 
+	void reset();
+
 	void move(std::vector<std::vector<int>> &map);
 	void moveHelper(std::vector<std::vector<int>> &map, std::vector<Direction> options);
 };

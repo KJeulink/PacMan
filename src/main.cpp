@@ -70,19 +70,19 @@ int main(int /*argc*/, char ** /*argv*/)
     SDL_TimerID timer_id =
         SDL_AddTimer(100, gameUpdate, static_cast<void *>(nullptr));
 
-    // Example object, this can be removed later
+
+	//initialize gameObjects vector of map
+	std::vector<std::vector<std::vector<GameObject*>>> objects(
+		map[0].size(),
+		std::vector<std::vector<GameObject*>>(map.size()));
+
+	 // Example object, this can be removed later
     PacMan pacman(14, 21);
 
 	Inky inky(14, 13);
 	Pinky pinky(13, 13);
 	Clyde clyde(12, 13);
 	Blinky blinky(15, 13);
-
-
-	//initialize gameObjects vector of map
-	std::vector<std::vector<std::vector<GameObject*>>> objects(
-		map[0].size(),
-		std::vector<std::vector<GameObject*>>(map.size()));
 
     // Call game init code here
 	for (int y = 0; y < map.size(); y++) {
@@ -189,19 +189,49 @@ int main(int /*argc*/, char ** /*argv*/)
 			clyde.move(map);
 		}
 
-		//move PacMan
-		/*int prevPacManX = pacman.getX();
-		int prevPacMany = pacman.getY();
+		for (size_t x = 0; x < objects[inky.getPrevX()][inky.getPrevY()].size(); x++) {
+			if (objects[inky.getPrevX()][inky.getPrevY()][x]->getType() == INKY) {
+				GameObject* object = objects[inky.getPrevX()][inky.getPrevY()][x];
+				objects[inky.getPrevX()][inky.getPrevY()].erase(objects[inky.getPrevX()][inky.getPrevY()].begin() + x);
+				objects[inky.getX()][inky.getY()].push_back(object);
+			}
+		}
 
+		for (size_t x = 0; x < objects[pinky.getPrevX()][pinky.getPrevY()].size(); x++) {
+			if (objects[pinky.getPrevX()][pinky.getPrevY()][x]->getType() == PINKY) {
+				GameObject* object = objects[pinky.getPrevX()][pinky.getPrevY()][x];
+				objects[pinky.getPrevX()][pinky.getPrevY()].erase(objects[pinky.getPrevX()][pinky.getPrevY()].begin() + x);
+				objects[pinky.getX()][pinky.getY()].push_back(object);
+			}
+		}
+
+		for (size_t x = 0; x < objects[blinky.getPrevX()][blinky.getPrevY()].size(); x++) {
+			if (objects[blinky.getPrevX()][blinky.getPrevY()][x]->getType() == BLINKY) {
+				GameObject* object = objects[blinky.getPrevX()][blinky.getPrevY()][x];
+				objects[blinky.getPrevX()][blinky.getPrevY()].erase(objects[blinky.getPrevX()][blinky.getPrevY()].begin() + x);
+				objects[blinky.getX()][blinky.getY()].push_back(object);
+			}
+		}
+
+		for (size_t x = 0; x < objects[clyde.getPrevX()][clyde.getPrevY()].size(); x++) {
+			if (objects[clyde.getPrevX()][clyde.getPrevY()][x]->getType() == CLYDE) {
+				GameObject* object = objects[clyde.getPrevX()][clyde.getPrevY()][x];
+				objects[clyde.getPrevX()][clyde.getPrevY()].erase(objects[clyde.getPrevX()][clyde.getPrevY()].begin() + x);
+				objects[clyde.getX()][clyde.getY()].push_back(object);
+			}
+		}
+
+		//move PacMan
+		int prevPacManX = pacman.getX();
+		int prevPacMany = pacman.getY();
+		bool ghostOnPrevPos = false;
 		for (size_t x = 0; x < objects[pacman.getX()][pacman.getY()].size(); x++) {
 			if ((objects[pacman.getX()][pacman.getY()][x]->getType() == INKY) || (objects[pacman.getX()][pacman.getY()][x]->getType() == BLINKY)
 					|| (objects[pacman.getX()][pacman.getY()][x]->getType() == PINKY) || (objects[pacman.getX()][pacman.getY()][x]->getType() == CLYDE)){
-				//delete objects[pacman.getX()][pacman.getY()][x];
-				//objects[pacman.getX()][pacman.getY()].erase(objects[pacman.getX()][pacman.getY()].begin() + x);
-				//score = score + 10;
+				ghostOnPrevPos = true;
 			}
 
-		}*/
+		}
 		pacman.move(map);
 
 		for (size_t x = 0; x < objects[pacman.getX()][pacman.getY()].size(); x++) {
@@ -209,6 +239,22 @@ int main(int /*argc*/, char ** /*argv*/)
 				delete objects[pacman.getX()][pacman.getY()][x];
 				objects[pacman.getX()][pacman.getY()].erase(objects[pacman.getX()][pacman.getY()].begin() + x);
 				score = score + 10;
+			}
+			else if ((objects[pacman.getX()][pacman.getY()][x]->getType() == INKY) || (objects[pacman.getX()][pacman.getY()][x]->getType() == BLINKY)
+				|| (objects[pacman.getX()][pacman.getY()][x]->getType() == PINKY) || (objects[pacman.getX()][pacman.getY()][x]->getType() == CLYDE)) {
+				if (ghostOnPrevPos) {
+					if (lives > 0) {
+						lives = lives - 1;
+						pacman.reset();
+						inky.reset();
+						pinky.reset();
+						blinky.reset();
+						clyde.reset();
+					}
+					else {
+
+					}
+				}
 			}
 
 		}

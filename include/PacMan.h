@@ -12,6 +12,8 @@ public:
 	PacMan(int x, int y);
 	~PacMan();
 
+	void reset();
+
 	void move(std::vector<std::vector<int>> &map);
 };
 

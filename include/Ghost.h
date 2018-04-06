@@ -7,8 +7,8 @@
 class Ghost :
 	public MovingObject
 {
-	int prevX;
-	int prevY;
+	int prevX = 0;
+	int prevY = 0;
 	bool moving;
 public:
 	Ghost(int x, int y, Type type, Direction dir);

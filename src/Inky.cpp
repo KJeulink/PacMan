@@ -11,6 +11,11 @@ Inky::~Inky()
 {
 }
 
+void Inky::reset() {
+	setPosition(14, 13);
+	setType(INKY);
+}
+
 void Inky::move(std::vector<std::vector<int>> &map) {
 	std::vector<Direction> options = { LEFT, RIGHT, UP, DOWN };
 	moveHelper(map, options);
