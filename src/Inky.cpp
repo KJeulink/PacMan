@@ -1,6 +1,7 @@
 #include "Inky.h"
 #include <iostream>
 
+//implementation of other ghosts are almost the same as blinky, except for the random seed and time when movement is allowed.
 
 Inky::Inky(int x, int y) : Ghost(x, y, INKY, UP)
 {
@@ -32,7 +33,7 @@ void Inky::moveHelper(std::vector<std::vector<int>> &map, std::vector<Direction>
 	}
 	else {
 		std::srand(std::time(nullptr) + 9); // use current time as seed for random generator
-		back_chance = std::rand() % 9 + 0;
+		back_chance = std::rand() % 1 + 0;
 	}
 	std::srand(std::time(nullptr)); // use current time as seed for random generator
 	int random_direction = std::rand() % options.size() + 1;

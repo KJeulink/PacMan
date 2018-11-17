@@ -1,5 +1,6 @@
 #include "Ghost.h"
 
+//constructor of ghosts
 Ghost::Ghost(int x, int y, Type type, Direction dir) : MovingObject(x, y, type, dir)
 {
 	this->moving = false;
@@ -10,6 +11,7 @@ Ghost::~Ghost()
 {
 }
 
+//move function of ghosts
 void Ghost::setMoving(bool moving) {
 	this->moving = moving;
 	if (moving) {
@@ -19,6 +21,7 @@ void Ghost::setMoving(bool moving) {
 	}
 }
 
+//boolean if ghost is moving
 bool Ghost::isMoving() {
 	return moving;
 }
